@@ -1,7 +1,7 @@
 # KnapsackProblem
 Knapsack problem solved with BB variation
 
-#Usage 
+# Usage 
 
 To run with jar you need to use the following command
 <pre>
@@ -17,7 +17,7 @@ The expected output for testing file is
 Syntax errors are displayed in red on console (error stream).
 When application is starting from .class it does not need any encoding parameter. 
 
-#Problem Analysis 
+# Problem Analysis 
 
 The packing problem defined in Problem Description can be considered as a variant of Knapsack Problem which is very commonly known 
 Discrete Optimization Problem. The variant considered here is known as Bounded 0-1 Knapsack Problem (because item can be presented maximum once in a solution).
@@ -26,7 +26,7 @@ for large number of variables. The solution can be by:
 - application of greedy search algorithms (Sequential Forward, Backward, Plus-Minus, Bidirectional, Beam Search, etc.),
 - application of exhaustive search strategy.
 
-##Problem formulation
+## Problem formulation
 Given a set of n items numbered from 1 up to n, each with a weight w_i and a cost value v_i, along with a maximum weight capacity W:
 
 maximize: ![Formula](85620037d368d2136fb3361702df6a489416931b.svg)
@@ -42,7 +42,7 @@ where: ![Formula](67d086ac9e491ea240621847e94bdc3b2a1d2b7f.svg)
 
 The additional constraints, ie.  maximum cost of item<100  and maximum weight of item <100 do not affect on the solution of optimization problem, because items can be removed from list of candidates for solution.
 
-##Problem solution with Branch and Bound
+## Problem solution with Branch and Bound
 Since we can assume monotonicity assumption (addition of items can only increase both total cost and total weight, because they are just summing up and nonnegative), then Branch and Bound Strategy can be applied effectively. 
 B&B discovers branches within the complete search space by using estimated bounds to limit the number of possible solutions. The different types (FIFO, LIFO, LC) define different 'strategies' to explore the search space and generate branches.
 
