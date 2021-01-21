@@ -10,6 +10,8 @@ To run with jar you need to use the following command
 
 
 The expected output for testing file is 
+
+
 ![Output](output.JPG)
 
 Syntax errors are displayed in red on console (error stream).
@@ -26,8 +28,13 @@ for large number of variables. The solution can be by:
 
 ##Problem formulation
 Given a set of n items numbered from 1 up to n, each with a weight w_i and a cost value v_i, along with a maximum weight capacity W:
-![Formula](67d086ac9e491ea240621847e94bdc3b2a1d2b7f.svg)
-![Formula](dd6e7c9bca4397980976ea6d19237500ce3b8176.svg)
+
+maximize :![Formula](dd6e7c9bca4397980976ea6d19237500ce3b8176.svg)
+
+
+subject to: ![Formula](67d086ac9e491ea240621847e94bdc3b2a1d2b7f.svg)
+
+
 ![Formula](85620037d368d2136fb3361702df6a489416931b.svg)
 
 The additional constraints, ie.  maximum cost of item<100  and maximum weight of item <100 do not affect on the solution of optimization problem, because items can be removed from list of candidates for solution.
