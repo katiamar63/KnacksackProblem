@@ -35,7 +35,7 @@ maximize: ![Formula](85620037d368d2136fb3361702df6a489416931b.svg)
 subject to: ![Formula](dd6e7c9bca4397980976ea6d19237500ce3b8176.svg)
 
 
-where: ![Formula](67d086ac9e491ea240621847e94bdc3b2a1d2b7f.svg)
+where: x_i is binary {0,1} variable, and i is in {1,2,3,...,c} and sum of x_i <15.
 
 
 
