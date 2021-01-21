@@ -42,7 +42,7 @@ where: ![Formula](67d086ac9e491ea240621847e94bdc3b2a1d2b7f.svg)
 
 The additional constraints, ie.  maximum cost of item<100  and maximum weight of item <100 do not affect on the solution of optimization problem, because items can be removed from list of candidates for solution.
 
-## Problem solution with Branch and Bound
+## Solution with Branch and Bound
 Since we can assume monotonicity assumption (addition of items can only increase both total cost and total weight, because they are just summing up and nonnegative), then Branch and Bound Strategy can be applied effectively. 
 B&B discovers branches within the complete search space by using estimated bounds to limit the number of possible solutions. The different types (FIFO, LIFO, LC) define different 'strategies' to explore the search space and generate branches.
 
