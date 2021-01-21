@@ -1,5 +1,5 @@
-# KnacksackProblem
-Knacksack problem solved with BB variation
+# KnapsackProblem
+Knapsack problem solved with BB variation
 
 #Usage 
 
