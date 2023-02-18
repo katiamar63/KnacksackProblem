@@ -67,7 +67,7 @@ The implemented algorithm works as follows:
  4. Iteratively perform B&B with LC 
 
 
-```seq
+```uml-sequence-diagram
 Andrew->China: Says Hello 
 Note right of China: China thinks\nabout it 
 China-->Andrew: How are you? 
