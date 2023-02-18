@@ -88,7 +88,7 @@ loop get all geojsons
 PlaySkillMap->>Map API: GET /map/geojson/:id
 Map API-->>PlaySkillMap: geojson document
 end
-Note right of PlaySkillMap: Get all static geojsons
+Note right of PlaySkillMap: Get all static geojsons in loop
 PlaySkillMap->>SkillMap API: GET /skill/{skillId}/site 
 SkillMap API-->>PlaySkillMap: sites document
 PlaySkillMap-->GeoAction: update sites layer
@@ -98,4 +98,5 @@ PlaySkillMap->>SkillMap API: GET /skill/{skillId}/site
 SkillMap API-->>PlaySkillMap: sites document
 PlaySkillMap-->GeoAction: update sites layer
 end
+Note right of Workflow API: Update sites after each conttriution
 ```
