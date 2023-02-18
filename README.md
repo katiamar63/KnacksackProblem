@@ -77,3 +77,17 @@ John-->>Alice: Great!
 John->>Bob: How about you?
 Bob-->>John: Jolly good!
 ```
+```mermaid
+sequenceDiagram
+SkillRouter->>ContainerPlaySkillMap: /playskill/map/:id
+ContainerPlaySkillMap->>PlaySkillMap: call
+PlaySkillMap->>Map API: GET /map/configuration/:id
+Map API-->>PlaySkillMap: mapConfiguration document
+
+loop get all geojsons from layers
+PlaySkillMap->>Map API: GET /map/geojson/:id
+Map API-->>PlaySkillMap: geojson document
+
+PlaySkillMap->>SkillMap API: GET /skill/{skillId}/site 
+SkillMap API-->>PlaySkillMap: site document
+```
