@@ -82,15 +82,15 @@ PlaySkillMap->>SkillMap API: GET /skill/{skillId}/site
 SkillMap API-->>PlaySkillMap: sites document
 PlaySkillMap-->GeoAction: update sites layer
 loop contribute sample 
-PlaySkillMap-->Workflow API: POST /submit/case???
+PlaySkillMap-->>Workflow API: POST /submit/case???
 PlaySkillMap->>SkillMap API: GET /skill/{skillId}/site 
 SkillMap API-->>PlaySkillMap: sites document
-PlaySkillMap-->GeoAction: update sites layer
+PlaySkillMap-->>GeoAction: update sites layer
 end
 Note right of Workflow API: Update sites after each conttriution
 ```
 
-# Skills with map (API)
+# Map API
 
 
 <details>
