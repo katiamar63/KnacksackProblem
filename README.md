@@ -214,7 +214,7 @@ View with Map->>Map API: GET /api/map/configuration/:id
 Map API-->>View with Map: mapConfiguration document
 View with Map->>GeoComponent: pass configuration data
 
-GeoComponent->GeoComponent: initialize resources
+GeoComponent->>GeoComponent: initialize resources
 
 loop get all geojsons
 GeoComponent->>Map API: GET /api/map/geojson/:id
