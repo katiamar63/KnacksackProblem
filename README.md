@@ -223,3 +223,27 @@ end
 
 Note right of GeoComponent: Optionally get other data as in SkillMap case
 ```
+
+```mermaid
+sequenceDiagram
+SkillRouter->>ContainerPlaySkillMap: route /playskill/map/:id
+ContainerPlaySkillMap->>PlaySkillMap: call
+PlaySkillMap->>Map API: GET /api/map/configuration/:id
+Map API-->>PlaySkillMap: mapConfiguration document
+PlaySkillMap->>GeoComponent: pass configuration
+
+loop get all geojsons
+GeoComponent->>Map API: GET /api/map/geojson/:id
+Map API-->>GeoComponent: geojson document
+end
+Note right of GeoComponent: Get all static geojsons in loop
+GeoComponent->>SkillMap API: GET /api/skill/{skillId}/site 
+SkillMap API-->>GeoComponent: sites document
+loop contribute sample
+PlaySkillMap-->>Workflow API: POST /api/submit/case???
+PlaySkillMap->>GeoComponent: request for update 
+GeoComponent->>SkillMap API: GET /api/skill/{skillId}/site 
+SkillMap API-->>GeoComponent: sites document
+end
+Note right of Workflow API: Update sites after each conttriution
+```
