@@ -67,6 +67,12 @@ The implemented algorithm works as follows:
  4. Iteratively perform B&B with LC 
 
 
+# Implementation of Skill map
+
+## Skills with map API
+Please see this :
+
+
 ```mermaid
 sequenceDiagram
 SkillRouter->>ContainerPlaySkillMap: route /playskill/map/:id
@@ -91,7 +97,6 @@ end
 Note right of Workflow API: Update sites after each conttriution
 ```
 
-
 # Skills with map (API)
 
 
@@ -101,26 +106,42 @@ Note right of Workflow API: Update sites after each conttriution
 Get configuration for geo component. 
 
         {
-            ...
-            "skillsAvailable": [
-                {
-                    "livePresenterExperimentId": "15f95f00-b0e6-4712-9af8-b5cdd0678279"
-                    "miniWorkflowSetId": "e7a2b5c5-4543-43eb-964c-4029ede68157",
-                    "miniWorkflowKey": "mw1",
-                    "presentationId": "6a0feae5-22d1-446a-aa23-c4e715b1bce6",
-                    "uuid": "3f93e4c5-1340-4780-a787-4c59f8e0a9e3",
-                    "description": "Birds identification : Certification"
-                },
-                {
-                    "livePresenterExperimentId": "cc8ee452-7fa4-4ccd-bb67-14f6923f1af6",
-                    "type": "map",
-                    "miniWorkflowSetId": "b6c8c461-4a0e-40a3-99b7-59e0f9b33391",
-                    "miniWorkflowKey": "mw1",
-                    "presentationId": "50492b58-d8b8-4ea0-b6d7-f376a09a566a",
-                    "uuid": "638fc26a-66fd-415e-88bc-4278245812f2",
-                    "description": "Birds identification : Certification (vertical version)"
-                }
-            ]
+            "uuid":"cc8ee452-7fa4-4ccd-bb67-14f6923f1af6",
+            "configuration": {           
+                "width": "600px",
+                "height": "400px",
+                "center": [51, 11],
+                "zoom": 4,
+                "basemap": "gray-vector",
+                "viewType": "scene",
+                "uiComponents":["attribution"],
+                "layers": {
+                                  "url": "/dist/jsonDocs/geojson/Europe.geojson",
+                                  "renderer": {
+                                      "type": "simple",
+                                      "symbol": {
+                                          "type": "simple-fill",
+                                          "color": [
+                                              251,
+                                              154,
+                                              153,
+                                              1
+                                          ],
+                                          "style": "solid",
+                                          "outline": {
+                                              "width": 1.5,
+                                              "color": [
+                                                  251,
+                                                  154,
+                                                  153,
+                                                  1
+                                              ]
+                                          }
+                                      }
+                                  },
+                                  "title": "Europe"
+                              },               
+            }
         }
     
 ##### Parameters
@@ -164,7 +185,7 @@ Get static geojson file from backend.
 
 </details>
 
-## Get list of centers
+## Get list of centers (Skill API)
 
 <details>
  <summary><code>GET</code> <code><b>/skill/{skillId}/site</b></code> </summary>
@@ -186,3 +207,5 @@ Only compatible with skills having the type "map".
 > | `400`         | `application/json`                | `{"code":"400","message":"Bad Request"}`                            |
 
 </details>
+
+
