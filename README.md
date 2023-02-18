@@ -226,8 +226,7 @@ Note right of GeoComponent: Optionally get other data as in SkillMap case
 
 ```mermaid
 sequenceDiagram
-SkillRouter->>ContainerPlaySkillMap: route /playskill/map/:id
-ContainerPlaySkillMap->>PlaySkillMap: call
+SkillRouter->>PlaySkillMap: route /playskill/map/:id
 PlaySkillMap->>Map API: GET /api/map/configuration/:id
 Map API-->>PlaySkillMap: mapConfiguration document
 PlaySkillMap->>GeoComponent: pass configuration
