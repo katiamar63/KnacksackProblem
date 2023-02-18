@@ -90,4 +90,5 @@ Map API-->>PlaySkillMap: geojson document
 
 PlaySkillMap->>SkillMap API: GET /skill/{skillId}/site 
 SkillMap API-->>PlaySkillMap: site document
+
 ```
