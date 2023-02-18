@@ -66,6 +66,32 @@ The implemented algorithm works as follows:
 
  4. Iteratively perform B&B with LC 
 
+
+```mermaid
+sequenceDiagram
+SkillRouter->>ContainerPlaySkillMap: route /playskill/map/:id
+ContainerPlaySkillMap->>PlaySkillMap: call
+PlaySkillMap->>Map API: GET /api/map/configuration/:id
+Map API-->>PlaySkillMap: mapConfiguration document
+
+loop get all geojsons
+PlaySkillMap->>Map API: GET /api/map/geojson/:id
+Map API-->>PlaySkillMap: geojson document
+end
+Note right of PlaySkillMap: Get all static geojsons in loop
+PlaySkillMap->>SkillMap API: GET /api/skill/{skillId}/site 
+SkillMap API-->>PlaySkillMap: sites document
+PlaySkillMap-->GeoAction: update sites layer
+loop contribute sample 
+PlaySkillMap-->Workflow API: POST /api/submit/case???
+PlaySkillMap->>SkillMap API: GET /api/skill/{skillId}/site 
+SkillMap API-->>PlaySkillMap: sites document
+PlaySkillMap-->GeoAction: update sites layer
+end
+Note right of Workflow API: Update sites after each conttriution
+```
+
+
 # Skills with map (API)
 
 
