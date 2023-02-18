@@ -68,17 +68,6 @@ The implemented algorithm works as follows:
 
 ```mermaid
 sequenceDiagram
-Alice->>John: Hello John, how are you?
-loop Healthcheck
-    John->>John: Fight against hypochondria
-end
-Note right of John: Rational thoughts!
-John-->>Alice: Great!
-John->>Bob: How about you?
-Bob-->>John: Jolly good!
-```
-```mermaid
-sequenceDiagram
 SkillRouter->>ContainerPlaySkillMap: /playskill/map/:id
 ContainerPlaySkillMap->>PlaySkillMap: call
 PlaySkillMap->>Map API: GET /map/configuration/:id
@@ -100,3 +89,122 @@ PlaySkillMap-->GeoAction: update sites layer
 end
 Note right of Workflow API: Update sites after each conttriution
 ```
+
+# Skills with map (API)
+
+
+<details>
+ <summary><code>GET</code> <code><b>/api/event</b></code>  and <code><b>/api/event/{eventId}</b></code> </summary>
+
+Already exist. Now the endpoint are optionally returning (if the type is explicitly defined in the skill doc) a type for the skills in the skillsAvailable array. For instance : 
+
+    [
+        {
+            ...
+            "skillsAvailable": [
+                {
+                    "livePresenterExperimentId": "15f95f00-b0e6-4712-9af8-b5cdd0678279"
+                    "miniWorkflowSetId": "e7a2b5c5-4543-43eb-964c-4029ede68157",
+                    "miniWorkflowKey": "mw1",
+                    "presentationId": "6a0feae5-22d1-446a-aa23-c4e715b1bce6",
+                    "uuid": "3f93e4c5-1340-4780-a787-4c59f8e0a9e3",
+                    "description": "Birds identification : Certification"
+                },
+                {
+                    "livePresenterExperimentId": "cc8ee452-7fa4-4ccd-bb67-14f6923f1af6",
+                    "type": "map",
+                    "miniWorkflowSetId": "b6c8c461-4a0e-40a3-99b7-59e0f9b33391",
+                    "miniWorkflowKey": "mw1",
+                    "presentationId": "50492b58-d8b8-4ea0-b6d7-f376a09a566a",
+                    "uuid": "638fc26a-66fd-415e-88bc-4278245812f2",
+                    "description": "Birds identification : Certification (vertical version)"
+                }
+            ]
+        }
+    ]
+
+##### Responses
+
+> | http code     | content-type                      | response                                                            |
+> |---------------|-----------------------------------|---------------------------------------------------------------------|
+> | `200`         | `application/json`        | `{"map": [{"siteId": "uuid", "numberOfCases": 2]}`                                |
+> | `400`         | `application/json`                | `{"code":"400","message":"Bad Request"}`                            |
+
+</details>
+
+http://localhost:3000/api/event
+
+## Get list of centers
+
+<details>
+ <summary><code>GET</code> <code><b>/skill/{skillId}/site</b></code> </summary>
+
+Only compatible with skills having the type "map".
+
+##### Parameters
+
+> | name      |  type     | data type               | description                                                           |
+> |-----------|-----------|-------------------------|-----------------------------------------------------------------------|
+> | skillId      |  required | string  | The skill UUID  |
+
+
+##### Responses
+
+> | http code     | content-type                      | response                                                            |
+> |---------------|-----------------------------------|---------------------------------------------------------------------|
+> | `200`         | `application/json`        | `{"map": [ {"siteId": "uuid", "cases": [{"key": "case1", "available": true}]}]}`                                |
+> | `400`         | `application/json`                | `{"code":"400","message":"Bad Request"}`                            |
+
+</details>
+
+## Get a center (needed?)
+
+<details>
+ <summary><code>GET</code> <code><b>/skill/{skillId}/site/{siteId}</b></code> </summary>
+
+Only compatible with skills having the type "map".
+
+##### Parameters
+
+> | name      |  type     | data type               | description                                                           |
+> |-----------|-----------|-------------------------|-----------------------------------------------------------------------|
+> | skillId      |  required | string  | The skill UUID  |
+
+
+##### Responses
+
+> | http code     | content-type                      | response                                                            |
+> |---------------|-----------------------------------|---------------------------------------------------------------------|
+> | `200`         | `application/json`        | `{"siteId": "uuid", "cases": [{"key": "case1", "available": true}]}`                                |
+> | `400`         | `application/json`                | `{"code":"400","message":"Bad Request"}`                            |
+
+</details>
+
+## Get the current workload or trigger the assignation of one case from one center
+
+<details>
+ <summary><code>GET</code> <code><b>/skill/{skillId}/workload</b></code></summary>
+
+Only compatible with skills having the type “map”. This endpoint returns a case (if no case is already assigned, the query parameter **siteId** must be provided in order to assign a case to the user from the site selected). The format of the response is the same than the /workload API used for the "playskill". First implementation is only compatible with the new skill type (map).
+
+##### Parameters
+
+> | name      |  type     | data type               | description                                                           |
+> |-----------|-----------|-------------------------|-----------------------------------------------------------------------|
+> | skillId      |  required | string  | The skill UUID  |
+
+##### Query parameters
+
+> | name      |  type     | data type               | description                                                           |
+> |-----------|-----------|-------------------------|-----------------------------------------------------------------------|
+> | siteId      |  optional | string   | The site UUID. When not passed the API returns a case if one is already assigned, otherwise no case is returned  |
+
+
+##### Responses
+
+> | http code     | content-type                      | response                                                            |
+> |---------------|-----------------------------------|---------------------------------------------------------------------|
+> | `200`         | `application/json`        | `{"currentCase": "...", "expId": "...", listOfCases: [...], "miniWorkflow": {...} }` |
+> | `400`         | `application/json`                | `{"code":"400","message":"Bad Request"}`                            |                                                      
+
+</details>
