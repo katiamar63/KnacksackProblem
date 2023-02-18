@@ -87,7 +87,7 @@ Map API-->>PlaySkillMap: mapConfiguration document
 loop get all geojsons from layers
 PlaySkillMap->>Map API: GET /map/geojson/:id
 Map API-->>PlaySkillMap: geojson document
-
+end
 PlaySkillMap->>SkillMap API: GET /skill/{skillId}/site 
 SkillMap API-->>PlaySkillMap: site document
 
