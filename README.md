@@ -208,4 +208,18 @@ Only compatible with skills having the type "map".
 
 </details>
 
+```mermaid
+sequenceDiagram
+View with Map->>Map API: GET /api/map/configuration/:id
+Map API-->>View with Map: mapConfiguration document
+View with Map->>GeoComponent: pass configuration data
 
+GeoComponent->GeoComponent: initialize resources
+
+loop get all geojsons
+GeoComponent->>Map API: GET /api/map/geojson/:id
+Map API-->>GeoComponent: geojson document
+end
+
+Note right of GeoComponent: Optionally get other data as in SkillMap case
+```
