@@ -84,11 +84,18 @@ ContainerPlaySkillMap->>PlaySkillMap: call
 PlaySkillMap->>Map API: GET /map/configuration/:id
 Map API-->>PlaySkillMap: mapConfiguration document
 
-loop get all geojsons from layers
+loop get all geojsons
 PlaySkillMap->>Map API: GET /map/geojson/:id
 Map API-->>PlaySkillMap: geojson document
 end
+Note right of PlaySkillMap: Get all static geojsons
 PlaySkillMap->>SkillMap API: GET /skill/{skillId}/site 
-SkillMap API-->>PlaySkillMap: site document
-
+SkillMap API-->>PlaySkillMap: sites document
+PlaySkillMap-->GeoAction: update sites layer
+loop contribute sample 
+PlaySkillMap-->Workflow API: POST /submit/case???
+PlaySkillMap->>SkillMap API: GET /skill/{skillId}/site 
+SkillMap API-->>PlaySkillMap: sites document
+PlaySkillMap-->GeoAction: update sites layer
+end
 ```
