@@ -66,39 +66,14 @@ The implemented algorithm works as follows:
 
  4. Iteratively perform B&B with LC 
 
-```mermaid
-sequenceDiagram
-SkillRouter->>ContainerPlaySkillMap: /playskill/map/:id
-ContainerPlaySkillMap->>PlaySkillMap: call
-PlaySkillMap->>Map API: GET /map/configuration/:id
-Map API-->>PlaySkillMap: mapConfiguration document
-
-loop get all geojsons
-PlaySkillMap->>Map API: GET /map/geojson/:id
-Map API-->>PlaySkillMap: geojson document
-end
-Note right of PlaySkillMap: Get all static geojsons in loop
-PlaySkillMap->>SkillMap API: GET /skill/{skillId}/site 
-SkillMap API-->>PlaySkillMap: sites document
-PlaySkillMap-->GeoAction: update sites layer
-loop contribute sample 
-PlaySkillMap-->>Workflow API: POST /submit/case???
-PlaySkillMap->>SkillMap API: GET /skill/{skillId}/site 
-SkillMap API-->>PlaySkillMap: sites document
-PlaySkillMap-->>GeoAction: update sites layer
-end
-Note right of Workflow API: Update sites after each conttriution
-```
-
-# Map API
+# Skills with map (API)
 
 
 <details>
- <summary><code>GET</code> <code><b>/api/event</b></code>  and <code><b>/api/event/{eventId}</b></code> </summary>
+ <summary><code>GET</code> <code><b>/api/map/configuration/{id}</b></code></summary>
 
-Already exist. Now the endpoint are optionally returning (if the type is explicitly defined in the skill doc) a type for the skills in the skillsAvailable array. For instance : 
+Get configuration for geo component. 
 
-    [
         {
             ...
             "skillsAvailable": [
@@ -121,18 +96,47 @@ Already exist. Now the endpoint are optionally returning (if the type is explici
                 }
             ]
         }
-    ]
+    
+##### Parameters
+
+> | name      |  type     | data type               | description                                                           |
+> |-----------|-----------|-------------------------|-----------------------------------------------------------------------|
+> | id      |  required | string  | The map configuration UUID  |
+
 
 ##### Responses
 
 > | http code     | content-type                      | response                                                            |
 > |---------------|-----------------------------------|---------------------------------------------------------------------|
-> | `200`         | `application/json`        | `{"map": [{"siteId": "uuid", "numberOfCases": 2]}`                                |
+> | `200`         | `application/json`        | `{"id":"", map: {"siteId": "uuid", "numberOfCases": 2}`                                |
 > | `400`         | `application/json`                | `{"code":"400","message":"Bad Request"}`                            |
 
 </details>
 
-http://localhost:3000/api/event
+
+## Get the geojson
+
+<details>
+ <summary><code>GET</code> <code><b>/api/map/geojson/{id}</b></code></summary>
+
+Get static geojson file from backend.
+
+##### Parameters
+
+> | name      |  type     | data type               | description                                                           |
+> |-----------|-----------|-------------------------|-----------------------------------------------------------------------|
+> | id      |  required | string  | The geojson UUID  |
+
+
+
+##### Responses
+
+> | http code     | content-type                      | response                                                            |
+> |---------------|-----------------------------------|---------------------------------------------------------------------|
+> | `200`         | `application/json`        | `{"id":"123aaf-22-6454", "data":"{geojson}"}` |
+> | `400`         | `application/json`                | `{"code":"400","message":"Bad Request"}`                            |                                                      
+
+</details>
 
 ## Get list of centers
 
@@ -154,57 +158,5 @@ Only compatible with skills having the type "map".
 > |---------------|-----------------------------------|---------------------------------------------------------------------|
 > | `200`         | `application/json`        | `{"map": [ {"siteId": "uuid", "cases": [{"key": "case1", "available": true}]}]}`                                |
 > | `400`         | `application/json`                | `{"code":"400","message":"Bad Request"}`                            |
-
-</details>
-
-## Get a center (needed?)
-
-<details>
- <summary><code>GET</code> <code><b>/skill/{skillId}/site/{siteId}</b></code> </summary>
-
-Only compatible with skills having the type "map".
-
-##### Parameters
-
-> | name      |  type     | data type               | description                                                           |
-> |-----------|-----------|-------------------------|-----------------------------------------------------------------------|
-> | skillId      |  required | string  | The skill UUID  |
-
-
-##### Responses
-
-> | http code     | content-type                      | response                                                            |
-> |---------------|-----------------------------------|---------------------------------------------------------------------|
-> | `200`         | `application/json`        | `{"siteId": "uuid", "cases": [{"key": "case1", "available": true}]}`                                |
-> | `400`         | `application/json`                | `{"code":"400","message":"Bad Request"}`                            |
-
-</details>
-
-## Get the current workload or trigger the assignation of one case from one center
-
-<details>
- <summary><code>GET</code> <code><b>/skill/{skillId}/workload</b></code></summary>
-
-Only compatible with skills having the type “map”. This endpoint returns a case (if no case is already assigned, the query parameter **siteId** must be provided in order to assign a case to the user from the site selected). The format of the response is the same than the /workload API used for the "playskill". First implementation is only compatible with the new skill type (map).
-
-##### Parameters
-
-> | name      |  type     | data type               | description                                                           |
-> |-----------|-----------|-------------------------|-----------------------------------------------------------------------|
-> | skillId      |  required | string  | The skill UUID  |
-
-##### Query parameters
-
-> | name      |  type     | data type               | description                                                           |
-> |-----------|-----------|-------------------------|-----------------------------------------------------------------------|
-> | siteId      |  optional | string   | The site UUID. When not passed the API returns a case if one is already assigned, otherwise no case is returned  |
-
-
-##### Responses
-
-> | http code     | content-type                      | response                                                            |
-> |---------------|-----------------------------------|---------------------------------------------------------------------|
-> | `200`         | `application/json`        | `{"currentCase": "...", "expId": "...", listOfCases: [...], "miniWorkflow": {...} }` |
-> | `400`         | `application/json`                | `{"code":"400","message":"Bad Request"}`                            |                                                      
 
 </details>
