@@ -235,11 +235,12 @@ loop get all geojsons
 GeoComponent->>Map API: GET /api/map/geojson/:id
 Map API-->>GeoComponent: geojson document
 end
-Note right of GeoComponent: Get all static geojsons in loop
+Note left of Map API: Get all static geojsons in loop
 GeoComponent->>SkillMap API: GET /api/skill/{skillId}/site 
 SkillMap API-->>GeoComponent: sites document
 loop contribute sample
-PlaySkillMap-->>Workflow API: POST /api/submit/case???
+PlaySkillMap->>Workflow API: POST /api/submit/case???
+Workflow API->>PlaySkillMap: ack
 PlaySkillMap->>GeoComponent: request for update 
 GeoComponent->>SkillMap API: GET /api/skill/{skillId}/site 
 SkillMap API-->>GeoComponent: sites document
